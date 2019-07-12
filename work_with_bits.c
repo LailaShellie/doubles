@@ -12,7 +12,7 @@
 
 #include "double.h"
 
-static char			*make_frac_str(double num)
+static char			*make_frac_str(long double num)
 {
 	unsigned char	*a;
 	int				i;
@@ -20,9 +20,9 @@ static char			*make_frac_str(double num)
 	int				j;
 	int				k;
 
-	i = sizeof(double);
+	i = LONG_DOUBLE;
 	a = (unsigned char *)&num;
-	if (!(str = (char *)malloc(sizeof(double) * 8 + 1)))
+	if (!(str = (char *)malloc(LONG_DOUBLE * 8 + 1)))
 		return (0);
 	k = 0;
 	while (--i >= 0)
@@ -40,7 +40,7 @@ static char			*make_frac_str(double num)
 	return (str);
 }
 
-void				print_bits_double(double octet)
+void				print_bits_double(long double octet)
 {
 	unsigned char		*a;
 	int					i;
@@ -48,7 +48,7 @@ void				print_bits_double(double octet)
 	int					k;
 
 	a = (unsigned char *)&octet;
-	i = sizeof(double);
+	i = 10;
 	k = 0;
 	while (--i >= 0)
 	{
@@ -60,34 +60,35 @@ void				print_bits_double(double octet)
 			else
 				write(1, "0", 1);
 			++k;
-			if (k == 1 || k == 12)
+			if (k == 1 || k == 16)
 				write(1, "|", 1);
 		}
 	}
+	printf("\n");
 }
 
-char				*get_frac(double num)
+char				*get_frac(long double num)
 {
 	char *bin;
 	char *frac;
 
 	bin = make_frac_str(num);
-	frac = ft_strjoin("1", &bin[12]);
+	frac = ft_strdup(&bin[16]);
 	free(bin);
 	return (frac);
 }
 
-int					get_sign(double sign)
+int					get_sign(long double sign)
 {
 	unsigned char		*a;
 	int					i;
 
 	a = (unsigned char *)&sign;
-	i = sizeof(double) - 1;
+	i = LONG_DOUBLE - 1;
 	return (a[i] & (1 << 7));
 }
 
-int					get_exp(double exp)
+int					get_exp(long double exp)
 {
 	unsigned char	*a;
 	int				exp_i;
@@ -96,22 +97,22 @@ int					get_exp(double exp)
 
 	a = (unsigned char *)&exp;
 	res = 0;
-	res_i = 10;
+	res_i = 14;
 	exp_i = 6;
 	while (exp_i >= 0)
 	{
-		if (a[7] & (1 << exp_i))
+		if (a[9] & (1 << exp_i))
 			res ^= (1 << res_i);
 		--exp_i;
 		--res_i;
 	}
 	exp_i = 7;
-	while (exp_i >= 4)
+	while (exp_i >= 0)
 	{
-		if (a[6] & (1 << exp_i))
+		if (a[8] & (1 << exp_i))
 			res ^= (1 << res_i);
 		--exp_i;
 		--res_i;
 	}
-	return (res - 1023);
+	return (res - 16383);
 }

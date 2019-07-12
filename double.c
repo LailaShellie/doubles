@@ -96,7 +96,7 @@ static void		number_rounding(t_number *integral,
 	sum_tmp(integral, tmp);
 }
 
-char			*make_double(double p, int precision)
+char			*make_double(long double p, int precision)
 {
 	char		*frac;
 	int			exp;
@@ -106,6 +106,7 @@ char			*make_double(double p, int precision)
 
 	frac = get_frac(p);
 	exp = get_exp(p);
+
 	integral = get_integral_part(exp, frac);
 	fractional = get_fractional_part(exp, frac);
 	number_rounding(integral, &fractional, precision);
