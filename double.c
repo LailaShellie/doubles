@@ -12,7 +12,91 @@
 
 #include "double.h"
 
-char	*make_double(double p)
+static char		*make_integral(t_number *integral, int sign)
+{
+	char	*str;
+	int		i;
+
+	i = 0;
+	if (!(str = (char *)malloc(sizeof(char) *
+			(1 + sign + get_lst_len(integral)))))
+		return (0);
+	if (sign)
+		str[i++] = '-';
+	set_int(&str[i], integral);
+	i += get_lst_len(integral);
+	str[i] = 0;
+	return (str);
+}
+
+static char		*make_str(t_number *integral, t_number *fractional, int sign)
+{
+	char	*str;
+	int		i;
+
+	if (!fractional)
+		return (make_integral(integral, sign));
+	i = 0;
+	if (!(str = (char *)malloc(sizeof(char) *
+			(2 + sign + get_lst_len(integral) + get_lst_len(fractional)))))
+		return (0);
+	if (sign)
+		str[i++] = '-';
+	set_int(&str[i], integral);
+	i += get_lst_len(integral);
+	str[i++] = '.';
+	while (fractional)
+	{
+		str[i++] = fractional->num + 48;
+		fractional = fractional->next;
+	}
+	str[i] = 0;
+	return (str);
+}
+
+static int		frac_rounding(t_number *fractional, int precision)
+{
+	int tmp;
+
+	tmp = 0;
+	if (!fractional->next)
+		fractional->next = new_num(0);
+	if (precision == 1)
+	{
+		fractional->num += fractional->next->num >= 5 ? 1 : 0;
+		if ((tmp = fractional->num / 10))
+			fractional->num %= 10;
+		free_num(&fractional->next);
+		return (tmp);
+	}
+	tmp = frac_rounding(fractional->next, --precision);
+	if (tmp)
+		fractional->num += tmp;
+	if (fractional->num / 10)
+	{
+		fractional->num %= 10;
+		return (1);
+	}
+	return (0);
+}
+
+static void		number_rounding(t_number *integral,
+		t_number **fractional, int precision)
+{
+	int tmp;
+
+	if (!precision)
+	{
+		tmp = (*fractional)->num >= 5 ? 1 : 0;
+		(*fractional)->num = 0;
+		free_num(fractional);
+	}
+	else
+		tmp = frac_rounding(*fractional, precision);
+	sum_tmp(integral, tmp);
+}
+
+char			*make_double(double p, int precision)
 {
 	char		*frac;
 	int			exp;
@@ -24,8 +108,10 @@ char	*make_double(double p)
 	exp = get_exp(p);
 	integral = get_integral_part(exp, frac);
 	fractional = get_fractional_part(exp, frac);
+	number_rounding(integral, &fractional, precision);
 	str = make_str(integral, fractional, get_sign(p));
-	free_num(fractional);
-	free_num(integral);
+	if (fractional)
+		free_num(&fractional);
+	free_num(&integral);
 	return (str);
 }

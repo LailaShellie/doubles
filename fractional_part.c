@@ -49,7 +49,7 @@ t_number	*get_fractional_part(int exp, char *frac)
 		{
 			tmp = ft_big_pow(exp);
 			sum_lst(tmp, lst);
-			free_num(lst);
+			free_num(&lst);
 			lst = tmp;
 		}
 		--exp;

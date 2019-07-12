@@ -24,29 +24,6 @@ void			set_int(char *str, t_number *integral)
 	}
 }
 
-char			*make_str(t_number *integral, t_number *fractional, int sign)
-{
-	char	*str;
-	int		i;
-
-	i = 0;
-	if (!(str = (char *)malloc(sizeof(char) *
-			(2 + sign + get_lst_len(integral) + get_lst_len(fractional)))))
-		return (0);
-	if (sign)
-		str[i++] = '-';
-	set_int(&str[i], integral);
-	i += get_lst_len(integral);
-	str[i++] = '.';
-	while (fractional)
-	{
-		str[i++] = fractional->num + 48;
-		fractional = fractional->next;
-	}
-	str[i] = 0;
-	return (str);
-}
-
 static void		div_lst(t_number *lst)
 {
 	int			tmp;

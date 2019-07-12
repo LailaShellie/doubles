@@ -42,16 +42,17 @@ void		show_num(t_number *lst, int a)
 	}
 }
 
-void		free_num(t_number *lst)
+void		free_num(t_number **lst)
 {
 	t_number *tmp;
 
-	while (lst)
+	while (*lst)
 	{
-		tmp = lst;
-		lst = lst->next;
+		tmp = *lst;
+		*lst = (*lst)->next;
 		free(tmp);
 	}
+	*lst = 0;
 }
 
 t_number	*new_num(int num)

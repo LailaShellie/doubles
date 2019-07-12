@@ -12,7 +12,7 @@
 
 #include "double.h"
 
-static void			sum_tmp(t_number *lst, int tmp)
+void				sum_tmp(t_number *lst, int tmp)
 {
 	t_number	*prev;
 
