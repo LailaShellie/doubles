@@ -1,31 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   double.c                                           :+:      :+:    :+:   */
+/*   ft_nod.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lshellie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/12 10:38:49 by lshellie          #+#    #+#             */
-/*   Updated: 2019/07/12 10:38:52 by lshellie         ###   ########.fr       */
+/*   Created: 2019/05/31 11:32:02 by lshellie          #+#    #+#             */
+/*   Updated: 2019/05/31 11:32:03 by lshellie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "double.h"
+#include "libft.h"
 
-char	*make_double(double p)
+int		ft_gcd(int a, int b)
 {
-	char		*frac;
-	int			exp;
-	char		*str;
-	t_number	*integral;
-	t_number	*fractional;
-
-	frac = get_frac(p);
-	exp = get_exp(p);
-	integral = get_integral_part(exp, frac);
-	fractional = get_fractional_part(exp, frac);
-	str = make_str(integral, fractional, get_sign(p));
-	free_num(fractional);
-	free_num(integral);
-	return (str);
+	if (b == 0)
+		return (a);
+	return (ft_gcd(b, a % b));
 }

@@ -1,31 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   double.c                                           :+:      :+:    :+:   */
+/*   ft_strncat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lshellie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/12 10:38:49 by lshellie          #+#    #+#             */
-/*   Updated: 2019/07/12 10:38:52 by lshellie         ###   ########.fr       */
+/*   Created: 2019/04/06 12:02:59 by lshellie          #+#    #+#             */
+/*   Updated: 2019/04/10 13:58:38 by lshellie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "double.h"
+#include <string.h>
 
-char	*make_double(double p)
+char	*ft_strncat(char *s1, const char *s2, size_t n)
 {
-	char		*frac;
-	int			exp;
-	char		*str;
-	t_number	*integral;
-	t_number	*fractional;
+	size_t i;
+	size_t j;
 
-	frac = get_frac(p);
-	exp = get_exp(p);
-	integral = get_integral_part(exp, frac);
-	fractional = get_fractional_part(exp, frac);
-	str = make_str(integral, fractional, get_sign(p));
-	free_num(fractional);
-	free_num(integral);
-	return (str);
+	i = 0;
+	j = 0;
+	while (1)
+	{
+		if (s1[i] == '\0')
+		{
+			while (j < n && s2[j] != '\0')
+			{
+				s1[i] = s2[j];
+				++i;
+				++j;
+			}
+			s1[i] = '\0';
+			return (s1);
+		}
+		++i;
+	}
 }

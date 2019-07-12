@@ -1,31 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   double.c                                           :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lshellie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/12 10:38:49 by lshellie          #+#    #+#             */
-/*   Updated: 2019/07/12 10:38:52 by lshellie         ###   ########.fr       */
+/*   Created: 2019/04/05 17:11:26 by lshellie          #+#    #+#             */
+/*   Updated: 2019/04/12 19:52:25 by lshellie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "double.h"
+#include <string.h>
 
-char	*make_double(double p)
+char	*ft_strncpy(char *dst, const char *src, size_t len)
 {
-	char		*frac;
-	int			exp;
-	char		*str;
-	t_number	*integral;
-	t_number	*fractional;
+	size_t i;
+	size_t j;
+	size_t lenght;
 
-	frac = get_frac(p);
-	exp = get_exp(p);
-	integral = get_integral_part(exp, frac);
-	fractional = get_fractional_part(exp, frac);
-	str = make_str(integral, fractional, get_sign(p));
-	free_num(fractional);
-	free_num(integral);
-	return (str);
+	lenght = len;
+	i = 0;
+	j = 0;
+	while (i < lenght && src[j] != '\0')
+	{
+		dst[i] = src[j];
+		++i;
+		++j;
+	}
+	while (i < lenght && src[j] == '\0')
+	{
+		dst[i] = '\0';
+		++i;
+	}
+	return (dst);
 }

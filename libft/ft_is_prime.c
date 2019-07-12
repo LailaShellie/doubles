@@ -1,31 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   double.c                                           :+:      :+:    :+:   */
+/*   ft_is_prime.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lshellie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/12 10:38:49 by lshellie          #+#    #+#             */
-/*   Updated: 2019/07/12 10:38:52 by lshellie         ###   ########.fr       */
+/*   Created: 2019/05/30 14:47:35 by lshellie          #+#    #+#             */
+/*   Updated: 2019/05/30 14:47:36 by lshellie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "double.h"
+#include "libft.h"
 
-char	*make_double(double p)
+static int	sqrt(int nb)
 {
-	char		*frac;
-	int			exp;
-	char		*str;
-	t_number	*integral;
-	t_number	*fractional;
+	int xn;
+	int b;
+	int i;
 
-	frac = get_frac(p);
-	exp = get_exp(p);
-	integral = get_integral_part(exp, frac);
-	fractional = get_fractional_part(exp, frac);
-	str = make_str(integral, fractional, get_sign(p));
-	free_num(fractional);
-	free_num(integral);
-	return (str);
+	i = 1;
+	b = nb;
+	xn = 2;
+	if (nb <= 0)
+		return (0);
+	while (i < 25)
+	{
+		b = nb / xn;
+		xn = (xn + b) / 2;
+		i++;
+	}
+	return (xn);
+}
+
+int			ft_is_prime(int nb)
+{
+	int i;
+	int last;
+
+	last = sqrt(nb);
+	i = 2;
+	while (i <= last)
+	{
+		if (!(nb % i))
+			return (0);
+		++i;
+	}
+	return (1);
 }

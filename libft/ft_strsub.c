@@ -1,31 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   double.c                                           :+:      :+:    :+:   */
+/*   ft_strsub.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lshellie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/12 10:38:49 by lshellie          #+#    #+#             */
-/*   Updated: 2019/07/12 10:38:52 by lshellie         ###   ########.fr       */
+/*   Created: 2019/04/13 15:33:53 by lshellie          #+#    #+#             */
+/*   Updated: 2019/04/18 19:17:58 by lshellie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "double.h"
+#include <stdlib.h>
+#include "libft.h"
 
-char	*make_double(double p)
+char	*ft_strsub(char const *s, unsigned int start, size_t len)
 {
-	char		*frac;
-	int			exp;
-	char		*str;
-	t_number	*integral;
-	t_number	*fractional;
+	char			*str;
+	unsigned int	i;
+	unsigned int	end;
 
-	frac = get_frac(p);
-	exp = get_exp(p);
-	integral = get_integral_part(exp, frac);
-	fractional = get_fractional_part(exp, frac);
-	str = make_str(integral, fractional, get_sign(p));
-	free_num(fractional);
-	free_num(integral);
+	i = (unsigned int)len;
+	if (s == 0)
+		return (0);
+	if (!(str = (char *)ft_memalloc(sizeof(*s) * (len + 1))))
+		return (0);
+	end = start + i;
+	i = 0;
+	while (start < end)
+	{
+		str[i++] = s[start++];
+	}
+	str[i] = 0;
 	return (str);
 }

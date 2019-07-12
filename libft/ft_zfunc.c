@@ -1,31 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   double.c                                           :+:      :+:    :+:   */
+/*   ft_zfunc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lshellie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/12 10:38:49 by lshellie          #+#    #+#             */
-/*   Updated: 2019/07/12 10:38:52 by lshellie         ###   ########.fr       */
+/*   Created: 2019/05/30 14:13:32 by lshellie          #+#    #+#             */
+/*   Updated: 2019/05/30 14:13:33 by lshellie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "double.h"
+#include "libft.h"
 
-char	*make_double(double p)
+unsigned int		*ft_zfunc(const char *str)
 {
-	char		*frac;
-	int			exp;
-	char		*str;
-	t_number	*integral;
-	t_number	*fractional;
+	unsigned int	*z;
+	unsigned int	i;
+	unsigned int	j;
 
-	frac = get_frac(p);
-	exp = get_exp(p);
-	integral = get_integral_part(exp, frac);
-	fractional = get_fractional_part(exp, frac);
-	str = make_str(integral, fractional, get_sign(p));
-	free_num(fractional);
-	free_num(integral);
-	return (str);
+	if (!(z = (unsigned int *)ft_memalloc(sizeof(int) * ft_strlen(str))))
+		return (0);
+	z[0] = 0;
+	i = 1;
+	j = 0;
+	while (str[i])
+	{
+		if (str[i] != str[j] && j == 0)
+			z[i] = 0;
+		else if (str[i] != str[j] && j != 0)
+			j = z[j - 1];
+		if (str[i] == str[j])
+			z[i] = ++j;
+		++i;
+	}
+	return (z);
 }

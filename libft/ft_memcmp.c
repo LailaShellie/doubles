@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   double.c                                           :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lshellie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/12 10:38:49 by lshellie          #+#    #+#             */
-/*   Updated: 2019/07/12 10:38:52 by lshellie         ###   ########.fr       */
+/*   Created: 2019/04/09 19:12:37 by lshellie          #+#    #+#             */
+/*   Updated: 2019/04/18 20:30:38 by lshellie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "double.h"
+#include <string.h>
 
-char	*make_double(double p)
+int		ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	char		*frac;
-	int			exp;
-	char		*str;
-	t_number	*integral;
-	t_number	*fractional;
+	unsigned char *ss1;
+	unsigned char *ss2;
 
-	frac = get_frac(p);
-	exp = get_exp(p);
-	integral = get_integral_part(exp, frac);
-	fractional = get_fractional_part(exp, frac);
-	str = make_str(integral, fractional, get_sign(p));
-	free_num(fractional);
-	free_num(integral);
-	return (str);
+	ss1 = (unsigned char *)s1;
+	ss2 = (unsigned char *)s2;
+	while (n--)
+	{
+		if (*ss1 != *ss2)
+			return (*ss1 - *ss2);
+		++ss1;
+		++ss2;
+	}
+	return (0);
 }

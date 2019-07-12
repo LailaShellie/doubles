@@ -1,31 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   double.c                                           :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lshellie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/12 10:38:49 by lshellie          #+#    #+#             */
-/*   Updated: 2019/07/12 10:38:52 by lshellie         ###   ########.fr       */
+/*   Created: 2019/04/04 20:10:32 by lshellie          #+#    #+#             */
+/*   Updated: 2019/04/17 16:17:57 by lshellie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "double.h"
+#include <stdlib.h>
 
-char	*make_double(double p)
+char	*ft_strdup(const char *s1)
 {
-	char		*frac;
-	int			exp;
-	char		*str;
-	t_number	*integral;
-	t_number	*fractional;
+	char	*str;
+	int		i;
+	int		j;
 
-	frac = get_frac(p);
-	exp = get_exp(p);
-	integral = get_integral_part(exp, frac);
-	fractional = get_fractional_part(exp, frac);
-	str = make_str(integral, fractional, get_sign(p));
-	free_num(fractional);
-	free_num(integral);
+	i = 0;
+	j = 0;
+	while (s1[i] != '\0')
+		++i;
+	if (!(str = (char *)malloc(sizeof(char) * (i + 1))))
+		return (0);
+	str[i] = 0;
+	while (j < i)
+	{
+		str[j] = s1[j];
+		++j;
+	}
 	return (str);
 }

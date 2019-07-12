@@ -5,30 +5,36 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lshellie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/02 12:59:17 by lshellie          #+#    #+#             */
-/*   Updated: 2019/07/02 12:59:19 by lshellie         ###   ########.fr       */
+/*   Created: 2019/07/12 10:39:05 by lshellie          #+#    #+#             */
+/*   Updated: 2019/07/12 10:39:06 by lshellie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_DOUBLE_H
-#define FT_PRINTF_DOUBLE_H
+#ifndef DOUBLE_H
+# define DOUBLE_H
 
-#include "../libft/libft.h"
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#define NUM 10
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include "libft.h"
 
-void	print_mas(unsigned int *mas, int n);
-void				print_bits_double(double octet);
-int					get_exp(double exp);
-double				ft_pow(double a, int b);
-char				*get_integral_part(double **mas, char *frac, int exp);
-void				print(unsigned int *mas, int n);
-char				*get_fractional_part(double **mas, char *frac, int exp);
-void				free_all_fractional(unsigned int **all, int num);
-char				*get_frac(double num);
-char				*make_str(unsigned int *mas, int n);
-void				free_all(unsigned int **all, int num);
+typedef struct			s_number
+{
+	int					num;
+	struct s_number		*next;
+}						t_number;
+
+t_number				*new_num(int num);
+void					show_num(t_number *lst, int a);
+void					free_num(t_number *lst);
+int						get_exp(double exp);
+char					*get_frac(double num);
+t_number				*ft_big_pow(int a);
+t_number				*get_integral_part(int exp, char *frac);
+int						get_lst_len(t_number *lst);
+t_number				*get_fractional_part(int exp, char *frac);
+int						get_sign(double sign);
+char					*make_str(t_number *integral,
+		t_number *fractional, int sign);
 
 #endif

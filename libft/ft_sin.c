@@ -1,31 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   double.c                                           :+:      :+:    :+:   */
+/*   ft_sin.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lshellie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/12 10:38:49 by lshellie          #+#    #+#             */
-/*   Updated: 2019/07/12 10:38:52 by lshellie         ###   ########.fr       */
+/*   Created: 2019/06/27 17:58:47 by lshellie          #+#    #+#             */
+/*   Updated: 2019/06/27 17:58:51 by lshellie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "double.h"
+#include "libft.h"
 
-char	*make_double(double p)
+double				ft_sin(double rad)
 {
-	char		*frac;
-	int			exp;
-	char		*str;
-	t_number	*integral;
-	t_number	*fractional;
+	double x;
+	double a;
+	double b;
+	int n;
+	double c[8];
 
-	frac = get_frac(p);
-	exp = get_exp(p);
-	integral = get_integral_part(exp, frac);
-	fractional = get_fractional_part(exp, frac);
-	str = make_str(integral, fractional, get_sign(p));
-	free_num(fractional);
-	free_num(integral);
-	return (str);
+	n = 8;
+	a = -0.5;
+	b = 0.5;
+	c[0] = 0;
+	c[1] = 1.13364817640860993109;
+	c[2] = 0;
+	c[3] = -0.13807177875741061257;
+	c[4] = 0;
+	c[5] = 0.00449071486854682456;
+	c[6] = 0;
+	c[7] = -0.00006829360271105867;
+	x = rad / 3.141592653589793238462643;
+	return (f_x(x, c, a, b, n));
 }

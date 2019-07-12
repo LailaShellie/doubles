@@ -1,31 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   double.c                                           :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lshellie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/12 10:38:49 by lshellie          #+#    #+#             */
-/*   Updated: 2019/07/12 10:38:52 by lshellie         ###   ########.fr       */
+/*   Created: 2019/04/09 17:07:24 by lshellie          #+#    #+#             */
+/*   Updated: 2019/04/12 15:16:20 by lshellie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "double.h"
+#include <string.h>
+#include <stdlib.h>
+#include "libft.h"
 
-char	*make_double(double p)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	char		*frac;
-	int			exp;
-	char		*str;
-	t_number	*integral;
-	t_number	*fractional;
+	char	*s;
+	char	*d;
+	size_t	i;
 
-	frac = get_frac(p);
-	exp = get_exp(p);
-	integral = get_integral_part(exp, frac);
-	fractional = get_fractional_part(exp, frac);
-	str = make_str(integral, fractional, get_sign(p));
-	free_num(fractional);
-	free_num(integral);
-	return (str);
+	i = 0;
+	d = (char *)dst;
+	s = (char *)src;
+	if (s > d)
+	{
+		while (len != i)
+		{
+			d[i] = s[i];
+			++i;
+		}
+	}
+	else if (s < d)
+	{
+		while (len-- != 0)
+			d[len] = s[len];
+	}
+	return (dst);
 }

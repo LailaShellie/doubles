@@ -5,138 +5,75 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lshellie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/02 19:42:49 by lshellie          #+#    #+#             */
-/*   Updated: 2019/07/02 19:42:50 by lshellie         ###   ########.fr       */
+/*   Created: 2019/07/10 17:05:15 by lshellie          #+#    #+#             */
+/*   Updated: 2019/07/10 17:29:27 by lshellie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "double.h"
 
-void	print_mas(unsigned int *mas, int n)
+static void			sum_tmp(t_number *lst, int tmp)
 {
-	int i;
+	t_number	*prev;
 
-	i = 0;
-	while (i < n)
+	while (lst)
 	{
-		printf("%u ", mas[i]);
-		++i;
+		tmp += lst->num;
+		lst->num = tmp % 10;
+		tmp = tmp / 10;
+		prev = lst;
+		lst = lst->next;
 	}
-	printf("\n");
+	if (tmp)
+		prev->next = new_num(tmp);
 }
 
-static int get_len(double num)
+static void			sum_lst(t_number *lst1, t_number *lst2)
 {
-	int		n;
+	t_number	*prev;
+	int			tmp;
 
-	n = 1;
-	while (num > 10)
-	{
-		num = num / NUM;
-		++n;
-	}
-	return (n);
-}
-
-static unsigned int	*split_integral(double nbr, int n)
-{
-	unsigned int		*mas;
-	int					i;
-
-	i = 0;
-	if (!(mas = (unsigned int *)malloc(sizeof(unsigned int) * n)))
-		return (0);
-	while (i < n)
-	{
-		mas[i] = (unsigned long long int)(nbr / ft_pow(NUM, n - i - 1)) % NUM;
-		++i;
-	}
-	return (mas);
-}
-
-static unsigned int	*sum_all(unsigned int **all, int num, int n)
-{
-	unsigned int		*res;
-	int					j;
-	unsigned int		tmp;
-	int					k;
-
-	k = 0;
 	tmp = 0;
-	if (!(res = (unsigned int *)malloc(sizeof(unsigned int) * (n + 1))))
-		return (0);
-	while (--n != -1)
+	while (lst2)
 	{
-		j = 0;
-		while (j < num)
-		{
-			tmp += all[j][n];
-			++j;
-		}
-		res[k++] = tmp % NUM;
-		tmp = tmp / NUM;
+		tmp += lst1->num + lst2->num;
+		lst1->num = tmp % 10;
+		tmp = tmp / 10;
+		prev = lst1;
+		lst1 = lst1->next;
+		lst2 = lst2->next;
 	}
-	res[k] = tmp;
-	return (res);
+	if (tmp && prev->next)
+		sum_tmp(prev->next, tmp);
+	else if (tmp && !lst1)
+		prev->next = new_num(tmp);
 }
 
-static char *split_all_integral(double *mas, int num)
+t_number			*get_integral_part(int exp, char *frac)
 {
-	unsigned int		**all;
-	unsigned int		*res;
-	char				*str;
-	int					n;
-	int					i;
+	t_number	*lst;
+	t_number	*tmp;
 
-	i = 0;
-	if (!(all = (unsigned int **)malloc(sizeof(unsigned int *) * num)))
-		return (0);
-	n = get_len(mas[i]);
-	all[i] = split_integral(mas[i], n);
-//	print_mas(all[i], n);
-	while (++i < num)
+	lst = 0;
+	while (exp >= 0 && *frac)
 	{
-		all[i] = split_integral(mas[i], n);
-//		print_mas(all[i], n);
-	}
-	res = sum_all(all, num, n);
-	free_all(all, num);
-	str = make_str(res, n + 1);
-	free(res);
-	return (str);
-}
-
-char		*get_integral_part(double **mas, char *frac, int exp)
-{
-	int num;
-	int tmp;
-	int i;
-	int j;
-
-	tmp = exp;
-	j = 0;
-	num = 0;
-	i = 0;
-	while (frac[i] && tmp >= 0)
-	{
-		if (frac[i] == '1')
-			++num;
-		++i;
-		--tmp;
-	}
-	printf("!!%d %d!!\n", exp, num);
-	if (!(*mas = (double *)ft_memalloc(sizeof(double) * num)))
-		return (0);
-	i = 0;
-	while (frac[i] && j < num)
-	{
-		if (frac[i] == '1')
+		if (*frac == '1')
 		{
-			(*mas)[j] = ft_pow(2, exp);
-			++j;
+			if (!lst)
+			{
+				lst = ft_big_pow(exp);
+			}
+			else
+			{
+				tmp = ft_big_pow(exp);
+				sum_lst(lst, tmp);
+				free(tmp);
+			}
 		}
 		--exp;
-		++i;
+		++frac;
 	}
-	return (split_all_integral(*mas, num));
+	if (!lst)
+		lst = new_num(0);
+	return (lst);
 }

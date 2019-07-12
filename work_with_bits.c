@@ -5,55 +5,55 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lshellie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/02 12:57:57 by lshellie          #+#    #+#             */
-/*   Updated: 2019/07/02 12:57:58 by lshellie         ###   ########.fr       */
+/*   Created: 2019/07/10 16:47:41 by lshellie          #+#    #+#             */
+/*   Updated: 2019/07/10 16:47:42 by lshellie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "double.h"
 
-static char	*make_frac_str(double num)
+static char			*make_frac_str(double num)
 {
-	unsigned char * a = (unsigned char *) & num;
-	int i = sizeof (double) - 1;
-	char *str;
-	int j;
-	int k;
+	unsigned char	*a;
+	int				i;
+	char			*str;
+	int				j;
+	int				k;
 
+	i = sizeof(double);
+	a = (unsigned char *)&num;
 	if (!(str = (char *)malloc(sizeof(double) * 8 + 1)))
 		return (0);
 	k = 0;
-	str[sizeof(double) * 8] = 0;
-	while (i >= 0)
+	while (--i >= 0)
 	{
-		j = 7;
-		while (j >= 0)
+		j = 8;
+		while (--j >= 0)
 		{
 			if (a[i] & (1 << j))
-				str[k] = '1';
+				str[k++] = '1';
 			else
-				str[k] = '0';
-			++k;
-			--j;
+				str[k++] = '0';
 		}
-		--i;
 	}
 	str[k] = 0;
 	return (str);
 }
 
-void	print_bits_double(double octet)
+void				print_bits_double(double octet)
 {
-	unsigned char * a = (unsigned char *) & octet;
-	int i = sizeof (double) - 1;
-	int j;
-	int k;
+	unsigned char		*a;
+	int					i;
+	int					j;
+	int					k;
 
+	a = (unsigned char *)&octet;
+	i = sizeof(double);
 	k = 0;
-	while (i >= 0)
+	while (--i >= 0)
 	{
-		j = 7;
-		while (j >= 0)
+		j = 8;
+		while (--j >= 0)
 		{
 			if (a[i] & (1 << j))
 				write(1, "1", 1);
@@ -62,13 +62,11 @@ void	print_bits_double(double octet)
 			++k;
 			if (k == 1 || k == 12)
 				write(1, "|", 1);
-			--j;
 		}
-		--i;
 	}
 }
 
-char *get_frac(double num)
+char				*get_frac(double num)
 {
 	char *bin;
 	char *frac;
@@ -79,14 +77,24 @@ char *get_frac(double num)
 	return (frac);
 }
 
-int		get_exp(double exp)
+int					get_sign(double sign)
 {
-	unsigned char * a = (unsigned char *) & exp;
+	unsigned char		*a;
+	int					i;
 
-	int exp_i;
-	int res_i;
-	int res;
+	a = (unsigned char *)&sign;
+	i = sizeof(double) - 1;
+	return (a[i] & (1 << 7));
+}
 
+int					get_exp(double exp)
+{
+	unsigned char	*a;
+	int				exp_i;
+	int				res_i;
+	int				res;
+
+	a = (unsigned char *)&exp;
 	res = 0;
 	res_i = 10;
 	exp_i = 6;
@@ -105,6 +113,5 @@ int		get_exp(double exp)
 		--exp_i;
 		--res_i;
 	}
-	return (res);
+	return (res - 1023);
 }
-

@@ -1,31 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   double.c                                           :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lshellie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/12 10:38:49 by lshellie          #+#    #+#             */
-/*   Updated: 2019/07/12 10:38:52 by lshellie         ###   ########.fr       */
+/*   Created: 2019/04/12 19:16:32 by lshellie          #+#    #+#             */
+/*   Updated: 2019/04/18 19:14:21 by lshellie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "double.h"
+#include <stdlib.h>
+#include "libft.h"
 
-char	*make_double(double p)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	char		*frac;
-	int			exp;
-	char		*str;
-	t_number	*integral;
-	t_number	*fractional;
+	char			*str;
+	unsigned int	i;
 
-	frac = get_frac(p);
-	exp = get_exp(p);
-	integral = get_integral_part(exp, frac);
-	fractional = get_fractional_part(exp, frac);
-	str = make_str(integral, fractional, get_sign(p));
-	free_num(fractional);
-	free_num(integral);
+	if (!s || !f)
+		return (0);
+	i = 0;
+	str = 0;
+	if (!(str = (char *)malloc(sizeof(*s) * (ft_strlen(s) + 1))))
+		return (0);
+	while (s[i] != 0)
+	{
+		str[i] = f(i, s[i]);
+		i++;
+	}
+	str[i] = 0;
 	return (str);
 }

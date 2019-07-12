@@ -1,31 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   double.c                                           :+:      :+:    :+:   */
+/*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lshellie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/12 10:38:49 by lshellie          #+#    #+#             */
-/*   Updated: 2019/07/12 10:38:52 by lshellie         ###   ########.fr       */
+/*   Created: 2019/04/06 16:54:34 by lshellie          #+#    #+#             */
+/*   Updated: 2019/04/20 16:08:29 by lshellie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "double.h"
+#include "libft.h"
 
-char	*make_double(double p)
+char	*ft_strstr(const char *haystack, const char *needle)
 {
-	char		*frac;
-	int			exp;
-	char		*str;
-	t_number	*integral;
-	t_number	*fractional;
+	const char *s1;
+	const char *s2;
 
-	frac = get_frac(p);
-	exp = get_exp(p);
-	integral = get_integral_part(exp, frac);
-	fractional = get_fractional_part(exp, frac);
-	str = make_str(integral, fractional, get_sign(p));
-	free_num(fractional);
-	free_num(integral);
-	return (str);
+	if (*needle == 0)
+		return ((char *)haystack);
+	while (*haystack != 0)
+	{
+		s1 = needle;
+		s2 = haystack;
+		while (*haystack == *s1 && *s1 != 0)
+		{
+			++haystack;
+			++s1;
+		}
+		if (*s1 == 0)
+			return ((char *)s2);
+		haystack = s2;
+		++haystack;
+	}
+	return (0);
 }

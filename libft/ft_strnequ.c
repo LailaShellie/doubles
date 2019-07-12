@@ -1,31 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   double.c                                           :+:      :+:    :+:   */
+/*   ft_strnequ.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lshellie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/12 10:38:49 by lshellie          #+#    #+#             */
-/*   Updated: 2019/07/12 10:38:52 by lshellie         ###   ########.fr       */
+/*   Created: 2019/04/12 20:01:34 by lshellie          #+#    #+#             */
+/*   Updated: 2019/04/18 15:59:18 by lshellie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "double.h"
+#include <string.h>
 
-char	*make_double(double p)
+int		ft_strnequ(char const *s1, char const *s2, size_t n)
 {
-	char		*frac;
-	int			exp;
-	char		*str;
-	t_number	*integral;
-	t_number	*fractional;
+	int i;
 
-	frac = get_frac(p);
-	exp = get_exp(p);
-	integral = get_integral_part(exp, frac);
-	fractional = get_fractional_part(exp, frac);
-	str = make_str(integral, fractional, get_sign(p));
-	free_num(fractional);
-	free_num(integral);
-	return (str);
+	i = 0;
+	if (s1 == 0 || s2 == 0)
+		return (0);
+	if (n == 0)
+		return (1);
+	while (s1[i] != 0 && s2[i] != 0)
+	{
+		if (s1[i] != s2[i])
+			return (0);
+		--n;
+		if (n == 0)
+			return (1);
+		++i;
+	}
+	if (s1[i] == 0 && s2[i] == 0)
+		return (1);
+	return (0);
 }
