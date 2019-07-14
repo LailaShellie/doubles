@@ -106,7 +106,8 @@ char			*make_double(long double p, int precision)
 
 	frac = get_frac(p);
 	exp = get_exp(p);
-
+	if (exp == 16384)
+		return (is_nan_or_inf(p, frac));
 	integral = get_integral_part(exp, frac);
 	fractional = get_fractional_part(exp, frac);
 	number_rounding(integral, &fractional, precision);

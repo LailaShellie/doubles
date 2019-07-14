@@ -40,5 +40,6 @@ void					sum_tmp(t_number *lst, int tmp);
 void					set_int(char *str, t_number *integral);
 char					*make_double(long double p, int precision);
 void					print_bits_double(long double octet);
+char					*is_nan_or_inf(long double p, char *frac);
 
 #endif

@@ -12,6 +12,16 @@
 
 #include "double.h"
 
+char			*is_nan_or_inf(long double p, char *frac)
+{
+	while (++*frac)
+		if (*frac == '1')
+			return (ft_strdup("nan"));
+	if (get_sign(p))
+		return (ft_strdup("-inf"));
+	return (ft_strdup("inf"));
+}
+
 void			set_int(char *str, t_number *integral)
 {
 	int len;
